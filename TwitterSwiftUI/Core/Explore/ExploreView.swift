@@ -9,7 +9,23 @@ import SwiftUI
 
 struct ExploreView: View {
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        NavigationView {
+            VStack {
+                ScrollView {
+                    LazyVStack {
+                        ForEach(0...25, id: \.self) { _ in
+                            NavigationLink {
+                                ProfileView()
+                            } label: {
+                                UserRowView()
+                            }
+                        }
+                    }
+                }
+            }
+            .navigationTitle("Explore")
+            .navigationBarTitleDisplayMode(.inline)
+        }
     }
 }
 
