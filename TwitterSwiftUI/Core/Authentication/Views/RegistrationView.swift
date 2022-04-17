@@ -13,35 +13,27 @@ struct RegistrationView: View {
     @State private var fullName = ""
     @State private var userName = ""
     @Environment(\.presentationMode) var presentationMode
+    @EnvironmentObject var viewModel: AuthViewModel
     
     var body: some View {
         VStack {
-            VStack(alignment: .leading) {
-                HStack { Spacer() }
-                Text("Get started.")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-                Text("Creat your account")
-                    .font(.largeTitle)
-                    .fontWeight(.semibold)
-            }
-            .frame(height: 260)
-            .padding(.leading)
-            .background(Color(.systemBlue))
-            .foregroundColor(.white)
-            .clipShape(RoundedShape(corners: [.bottomRight]))
+            
+            NavigationLink(destination: ProfilePhotoSelecterView(),
+                           isActive: $viewModel.isAuthenticated, label: {})
+            
+            AuthHeaderView(firstText: "New member ?", secondText: "Creat an account!")
             
             VStack(spacing: 60) {
-                CustomImputField(imageName: "envelope", placeHolderText: "Email", text: $email)
-                CustomImputField(imageName: "person", placeHolderText: "Username", text: $userName)
-                CustomImputField(imageName: "person", placeHolderText: "Full name", text: $fullName)
-                CustomImputField(imageName: "lock", placeHolderText: "Password", text: $password)
+                CustomInputField(imageName: "envelope", placeHolderText: "Email", isSecureField: false, text: $email)
+                CustomInputField(imageName: "person", placeHolderText: "Username", isSecureField: false, text: $userName)
+                CustomInputField(imageName: "person", placeHolderText: "Full name", isSecureField: false, text: $fullName)
+                CustomInputField(imageName: "lock", placeHolderText: "Password", isSecureField: true, text: $password)
             }
             .padding(.horizontal, 32)
             .padding(.vertical, 44)
             
             Button {
-                
+                viewModel.register(withEmail: email, password: password, fullname: fullName, username: userName)
             } label: {
                 Text("Sign Up")
                     .font(.headline)

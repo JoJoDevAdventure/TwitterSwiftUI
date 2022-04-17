@@ -7,10 +7,12 @@
 
 import SwiftUI
 
-struct CustomImputField: View {
+struct CustomInputField: View {
     
     let imageName: String
     let placeHolderText: String
+    let isSecureField: Bool
+    
     @Binding var text : String
     
     var body: some View {
@@ -22,7 +24,11 @@ struct CustomImputField: View {
                     .frame(width: 20, height: 20)
                     .foregroundColor(Color(.darkGray))
                 
-                TextField(placeHolderText, text: $text)
+                if isSecureField {
+                    SecureField(placeHolderText, text: $text)
+                } else {
+                    TextField(placeHolderText, text: $text)
+                }
             }
             Divider()
                 .background(Color(.darkGray))
@@ -32,6 +38,6 @@ struct CustomImputField: View {
 
 struct CustomImputField_Previews: PreviewProvider {
     static var previews: some View {
-        CustomImputField(imageName: "envelope", placeHolderText: "Email", text: .constant(""))
+        CustomInputField(imageName: "envelope", placeHolderText: "Email", isSecureField: false, text: .constant(""))
     }
 }
